@@ -1,10 +1,12 @@
 <?php
 return [
-    /*'components' =>
+    'components' =>
     [
-        'instagramComponent' =>
+        'cms' =>
         [
-            'class' => '\skeeks\cms\ya\map',
+            'relatedProperies' => [
+                'skeeks\cms\ya\map\related\YaMap'
+            ],
         ],
-    ],*/
+    ],
 ];
