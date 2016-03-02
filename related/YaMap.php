@@ -11,6 +11,8 @@ use skeeks\cms\components\Cms;
 use skeeks\cms\relatedProperties\PropertyType;
 use skeeks\cms\ya\map\widgets\YaMapInput;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 /**
  * Class YaMap
@@ -25,9 +27,9 @@ class YaMap extends PropertyType
     public $zomm    = 10; //px
 
 
-    public $updateLat           = 0; //px
-    public $updateLon           = 0; //px
-    public $updateAddress       = 0; //px
+    public $updateLatName           = '';
+    public $updateLonName           = '';
+    public $updateAddressName       = '';
 
 
     public function init()
@@ -44,8 +46,11 @@ class YaMap extends PropertyType
     {
         return array_merge(parent::attributeLabels(),
         [
-            'height'  => "Высота карты",
-            'zomm'  => "Пришлижение карты",
+            'height'                => "Высота карты",
+            'zomm'                  => "Пришлижение карты",
+            'updateLatName'         => "Обновлять latitude",
+            'updateLonName'         => "Обновлять longitude",
+            'updateAddressName'     => "Обновлять поле адрес",
         ]);
     }
 
@@ -54,9 +59,26 @@ class YaMap extends PropertyType
         return ArrayHelper::merge(parent::rules(),
         [
             ['height', 'integer'],
-            ['zomm', 'integer']
+            ['zomm', 'integer'],
+            ['updateLatName', 'string'],
+            ['updateLonName', 'string'],
+            ['updateAddressName', 'string'],
         ]);
     }
+    /**
+     * @return string
+     */
+    public function renderConfigForm(ActiveForm $activeForm)
+    {
+        echo $activeForm->field($this, 'height');
+        echo $activeForm->field($this, 'zomm');
+        echo $activeForm->field($this, 'updateLatName');
+        echo $activeForm->field($this, 'updateLonName');
+        echo $activeForm->field($this, 'updateAddressName');
+    }
+
+
+
 
     /**
      * @return \yii\widgets\ActiveField
@@ -84,14 +106,77 @@ class YaMap extends PropertyType
             ]
         ]);
 
+        $opts['updateLatId'] = '';
+        if ($this->updateLatName)
+        {
+            $opts['updateLatId'] = Html::getInputId($this->model->relatedPropertiesModel, $this->updateLatName);
+        }
+
+        $opts['updateLonId'] = '';
+        if ($this->updateLonName)
+        {
+            $opts['updateLonId'] = Html::getInputId($this->model->relatedPropertiesModel, $this->updateLonName);
+        }
+
+        $opts['updateAddressId'] = '';
+        if ($this->updateLonName)
+        {
+            $opts['updateAddressId'] = Html::getInputId($this->model->relatedPropertiesModel, $this->updateAddressName);
+        }
+
+        $opts['mapId'] = $mapId;
+
+        $js = \yii\helpers\Json::encode($opts);
+
         \Yii::$app->view->registerJs(<<<JS
 
 (function(sx, $, _)
 {
-    sx.yaMaps.get('{$mapId}').bind('select', function(e, data)
-    {
-        console.log(data);
+    sx.classes.YaInputRelatUpdater = sx.classes.Component.extend({
+
+        _init: function()
+        {
+            var self = this;
+            var mapId = this.get('mapId');
+            sx.yaMaps.get(mapId).bind('select', function(e, data)
+            {
+                self.updateData(data);
+            });
+        },
+
+        updateData: function(data)
+        {
+            if (this.get('updateLatId'))
+            {
+                var Jq = $('#' + this.get('updateLatId'));
+                if (Jq.length)
+                {
+                    Jq.val(data.coords[0]);
+                }
+            }
+
+            if (this.get('updateLonId'))
+            {
+                var Jq = $('#' + this.get('updateLonId'));
+                if (Jq.length)
+                {
+                    Jq.val(data.coords[1]);
+                }
+            }
+
+            if (this.get('updateAddressId'))
+            {
+                var Jq = $('#' + this.get('updateAddressId'));
+                if (Jq.length)
+                {
+                    Jq.val(data.address);
+                }
+            }
+        }
     });
+
+    new sx.classes.YaInputRelatUpdater({$js});
+
 })(sx, sx.$, sx._);
 JS
 );
