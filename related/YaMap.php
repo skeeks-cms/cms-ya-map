@@ -9,6 +9,7 @@ namespace skeeks\cms\ya\map\related;
 
 use skeeks\cms\components\Cms;
 use skeeks\cms\relatedProperties\PropertyType;
+use skeeks\cms\ya\map\widgets\YaMapInput;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -20,13 +21,22 @@ class YaMap extends PropertyType
     public $code = self::CODE_STRING;
     public $name = "";
 
+    public $height  = 400; //px
+    public $zomm    = 10; //px
+
+
+    public $updateLat           = 0; //px
+    public $updateLon           = 0; //px
+    public $updateAddress       = 0; //px
+
+
     public function init()
     {
         parent::init();
 
         if(!$this->name)
         {
-            $this->name = \Yii::t('app', 'Yandex map');
+            $this->name = 'Yandex карта (выбор одной координаты)';
         }
     }
 
@@ -34,7 +44,8 @@ class YaMap extends PropertyType
     {
         return array_merge(parent::attributeLabels(),
         [
-            'type'  => \Yii::t('app', 'Type'),
+            'height'  => "Высота карты",
+            'zomm'  => "Пришлижение карты",
         ]);
     }
 
@@ -42,7 +53,8 @@ class YaMap extends PropertyType
     {
         return ArrayHelper::merge(parent::rules(),
         [
-
+            ['height', 'integer'],
+            ['zomm', 'integer']
         ]);
     }
 
@@ -52,11 +64,37 @@ class YaMap extends PropertyType
     public function renderForActiveForm()
     {
         $field = parent::renderForActiveForm();
+        $mapId = 'sx-map-' . $field->attribute;
 
-        $field->widget(\skeeks\cms\modules\admin\widgets\formInputs\OneImage::className(),
-        [
-            'filesModel' => $this->model
+        $field->widget(YaMapInput::className(), [
+            'YaMapWidgetOptions' =>
+            [
+                'id' => $mapId,
+                'options' =>
+                [
+                    'style' => "height: {$this->height}px"
+                ],
+                'clientOptions' =>
+                [
+                    'ya' =>
+                    [
+                        'zomm' => $this->zomm
+                    ]
+                ]
+            ]
         ]);
+
+        \Yii::$app->view->registerJs(<<<JS
+
+(function(sx, $, _)
+{
+    sx.yaMaps.get('{$mapId}').bind('select', function(e, data)
+    {
+        console.log(data);
+    });
+})(sx, sx.$, sx._);
+JS
+);
 
         return $field;
     }
