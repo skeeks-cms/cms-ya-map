@@ -1,5 +1,8 @@
 Виджеты для работы с Yandex картами
 ===================================
+##SkeekS CMS Marketplace
+
+http://marketplace.cms.skeeks.com/solutions/instrumentyi/razrabotchiku/228-cms-ya-map
 
 ##Exemples
 
