@@ -94,7 +94,8 @@
                 throw new Error("Instance of sx.classes.ya.MapObject was expected.");
             }
 
-            this.MapObject = MapObject;
+            this.MapObject  = MapObject;
+            this.YaMap      = null; //ya map instance
             this.applyParentMethod(sx.classes.Component, 'construct', [opts]); // TODO: make a workaround for magic parent calling
 
 
@@ -106,11 +107,13 @@
 
             if (this.MapObject.isReady)
             {
+                self.YaMap = self.MapObject.YaMap;
                 self._initOnReady();
             } else
             {
                 this.MapObject.bind('ready', function()
                 {
+                    self.YaMap = self.MapObject.YaMap;
                     self._initOnReady();
                 });
             }
