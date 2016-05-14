@@ -25,6 +25,34 @@ use yii\widgets\InputWidget;
  *
  *
  *
+ * \skeeks\cms\ya\map\widgets\YaMapInput::widget([
+        'name'      => 'yandex',
+        'YaMapWidgetOptions' =>
+        [
+            'options' =>
+            [
+                'style' => 'height: 400px;'
+            ]
+        ],
+
+        'clientOptions' =>
+            [
+                'select'    => new \yii\web\JsExpression(<<<JS
+        function(e, data)
+        {
+            var lat = data.coords[0];
+            var long = data.coords[1];
+            var address = data.address;
+
+            $('#appoffice-address').val(address);
+            $('#appoffice-latitude').val(lat);
+            $('#appoffice-longitude').val(long);
+        }
+JS
+    )
+            ]
+    ]);
+ *
  * Class YaMap
  * @package skeeks\cms\ya\map\related
  */

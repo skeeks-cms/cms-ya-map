@@ -36,21 +36,24 @@ $this->registerJs(<<<JS
             this.MapObject = sx.yaMaps.get(this.get('mapId'));
             this.Geocode = new sx.classes.ya.plugins.GeocodeCoords(this.MapObject);
 
-
             this.Geocode.bind('select', function(e, data)
             {
-                var coords = data.coords;
-                var coordsString = data.coords[0] + "," + data.coords[1];
+                var coords          = data.coords;
+                var coordsString    = data.coords[0] + "," + data.coords[1];
 
                 self.setInputValue(coordsString);
 
+                var selectEvent = self.get('select');
+                if (selectEvent)
+                {
+                    selectEvent(e, data);
+                }
             });
 
             this.MapObject.onReady(function(MapObject)
             {
                 if (self.get('startPoint'))
                 {
-                    console.log(self.get('startPoint'));
                     self.Geocode.setCoordinates(self.get('startPoint'));
                 }
             });
