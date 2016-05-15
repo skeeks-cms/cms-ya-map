@@ -105,6 +105,8 @@ class YaMapInput extends InputWidget
             $input = Html::hiddenInput($this->name, $this->value, [
                 'id' => $inputId
             ]);
+
+            $value = $this->value;
 		}
 
         if ($value)
