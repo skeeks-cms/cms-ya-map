@@ -4,8 +4,11 @@ return [
     [
         'cms' =>
         [
-            'relatedProperies' => [
-                'skeeks\cms\ya\map\related\YaMap'
+            'relatedHandlers' => [
+                'skeeks\cms\ya\map\related\YaMap' =>
+                [
+                    'class' => 'skeeks\cms\ya\map\related\YaMap'
+                ]
             ],
         ],
 
