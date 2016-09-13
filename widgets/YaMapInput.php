@@ -109,6 +109,8 @@ class YaMapInput extends InputWidget
             $value = $this->value;
 		}
 
+        $coords = [];
+
         if ($value)
         {
             $coords = explode(',', $value);
