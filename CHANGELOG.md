@@ -3,6 +3,7 @@ CHANGELOG
 
 1.0.0-rc1
 -----------------
+ * fixed notice
  * skeeks cms 3.1.0
 
 1.0.0-beta2
