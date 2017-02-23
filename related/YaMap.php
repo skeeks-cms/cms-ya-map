@@ -109,19 +109,19 @@ class YaMap extends PropertyType
         $opts['updateLatId'] = '';
         if ($this->updateLatName)
         {
-            $opts['updateLatId'] = Html::getInputId($this->model->relatedPropertiesModel, $this->updateLatName);
+            $opts['updateLatId'] = Html::getInputId($this->property->relatedPropertiesModel, $this->updateLatName);
         }
 
         $opts['updateLonId'] = '';
         if ($this->updateLonName)
         {
-            $opts['updateLonId'] = Html::getInputId($this->model->relatedPropertiesModel, $this->updateLonName);
+            $opts['updateLonId'] = Html::getInputId($this->property->relatedPropertiesModel, $this->updateLonName);
         }
 
         $opts['updateAddressId'] = '';
-        if ($this->updateLonName)
+        if ($this->updateAddressName)
         {
-            $opts['updateAddressId'] = Html::getInputId($this->model->relatedPropertiesModel, $this->updateAddressName);
+            $opts['updateAddressId'] = Html::getInputId($this->property->relatedPropertiesModel, $this->updateAddressName);
         }
 
         $opts['mapId'] = $mapId;
