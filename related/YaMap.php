@@ -25,6 +25,7 @@ class YaMap extends PropertyType
 
     public $height  = 400; //px
     public $zoom    = 10; //px
+    public $center  = '55.75241746329202,37.62104013208003';
 
 
     public $updateLatName           = '';
@@ -48,6 +49,7 @@ class YaMap extends PropertyType
         [
             'height'                => "Высота карты",
             'zoom'                  => "Приближение карты",
+            'center'                => "Координаты по умолчанию (широта,долгота)",
             'updateLatName'         => "Обновлять latitude",
             'updateLonName'         => "Обновлять longitude",
             'updateAddressName'     => "Обновлять поле адрес",
@@ -60,6 +62,7 @@ class YaMap extends PropertyType
         [
             ['height', 'integer'],
             ['zoom', 'integer'],
+            ['center', 'string'],
             ['updateLatName', 'string'],
             ['updateLonName', 'string'],
             ['updateAddressName', 'string'],
@@ -72,6 +75,7 @@ class YaMap extends PropertyType
     {
         echo $activeForm->field($this, 'height');
         echo $activeForm->field($this, 'zoom');
+        echo $activeForm->field($this, 'center');
         echo $activeForm->field($this, 'updateLatName');
         echo $activeForm->field($this, 'updateLonName');
         echo $activeForm->field($this, 'updateAddressName');
@@ -88,6 +92,12 @@ class YaMap extends PropertyType
         $field = parent::renderForActiveForm();
         $mapId = 'sx-map-' . $field->attribute;
 
+        $center = explode(',', $this->center);
+        $center = array_map('trim', $center);
+        if(count($center)!==2) {
+            $center = [55.75241746329202,37.62104013208003]; // default city
+        }
+
         $field->widget(YaMapInput::className(), [
             'YaMapWidgetOptions' =>
             [
@@ -100,7 +110,8 @@ class YaMap extends PropertyType
                 [
                     'ya' =>
                     [
-                        'zoom' => $this->zoom
+                        'zoom' => $this->zoom,
+                        'center' => $center,
                     ]
                 ]
             ]
