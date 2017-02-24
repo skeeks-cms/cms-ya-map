@@ -24,7 +24,7 @@ class YaMap extends PropertyType
     public $name = "";
 
     public $height  = 400; //px
-    public $zomm    = 10; //px
+    public $zoom    = 10; //px
 
 
     public $updateLatName           = '';
@@ -47,7 +47,7 @@ class YaMap extends PropertyType
         return array_merge(parent::attributeLabels(),
         [
             'height'                => "Высота карты",
-            'zomm'                  => "Пришлижение карты",
+            'zoom'                  => "Приближение карты",
             'updateLatName'         => "Обновлять latitude",
             'updateLonName'         => "Обновлять longitude",
             'updateAddressName'     => "Обновлять поле адрес",
@@ -59,7 +59,7 @@ class YaMap extends PropertyType
         return ArrayHelper::merge(parent::rules(),
         [
             ['height', 'integer'],
-            ['zomm', 'integer'],
+            ['zoom', 'integer'],
             ['updateLatName', 'string'],
             ['updateLonName', 'string'],
             ['updateAddressName', 'string'],
@@ -71,7 +71,7 @@ class YaMap extends PropertyType
     public function renderConfigForm(ActiveForm $activeForm)
     {
         echo $activeForm->field($this, 'height');
-        echo $activeForm->field($this, 'zomm');
+        echo $activeForm->field($this, 'zoom');
         echo $activeForm->field($this, 'updateLatName');
         echo $activeForm->field($this, 'updateLonName');
         echo $activeForm->field($this, 'updateAddressName');
@@ -100,7 +100,7 @@ class YaMap extends PropertyType
                 [
                     'ya' =>
                     [
-                        'zomm' => $this->zomm
+                        'zoom' => $this->zoom
                     ]
                 ]
             ]
