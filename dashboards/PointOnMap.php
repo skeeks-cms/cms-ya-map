@@ -11,6 +11,7 @@ namespace skeeks\cms\ya\map\dashboards;
 use skeeks\cms\base\Widget;
 use skeeks\cms\base\WidgetRenderable;
 use skeeks\cms\helpers\UrlHelper;
+use skeeks\cms\models\CmsDashboardWidget;
 use skeeks\cms\modules\admin\base\AdminDashboardWidget;
 use skeeks\cms\modules\admin\base\AdminDashboardWidgetRenderable;
 use skeeks\cms\ya\map\widgets\YaMapInput;
@@ -23,7 +24,7 @@ use yii\widgets\ActiveForm;
  * Class PointOnMap
  * @package skeeks\cms\ya\map\dashboards
  */
-class PointOnMap extends AdminDashboardWidgetRenderable
+class PointOnMap extends AdminDashboardWidget
 {
     static public function descriptorConfig()
     {
