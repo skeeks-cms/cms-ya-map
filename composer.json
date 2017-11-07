@@ -23,5 +23,10 @@
         "psr-4": {
             "skeeks\\cms\\ya\\map\\": ""
         }
+    },
+    "extra": {
+        "config-plugin": {
+            "web": "config/main.php"
+        }
     }
 }
