@@ -1,7 +1,11 @@
 CHANGELOG
 ==============
 
-1.0.0-rc1
+1.1.0
+-----------------
+ * Using composer-config-plugin
+ 
+1.0.0
 -----------------
  * fixed notice
  * skeeks cms 3.1.0
