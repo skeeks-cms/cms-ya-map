@@ -81,6 +81,7 @@ class YaMapInput extends InputWidget
     {
         parent::init();
         $this->options['id'] = $this->id;
+        $this->options['style'] = 'min-height: 420px;';
     }
 
 
