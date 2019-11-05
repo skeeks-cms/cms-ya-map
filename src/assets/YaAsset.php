@@ -23,4 +23,13 @@ class YaAsset extends AssetBundle
     ];
 
     public $depends = [];
+
+    public function init()
+    {
+        parent::init();
+
+        $this->js = [
+            '//api-maps.yandex.ru/2.2/?load=package.full&lang=ru-RU'
+        ];
+    }
 }

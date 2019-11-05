@@ -17,16 +17,16 @@
         }
     ],
     "require": {
-        "skeeks/cms": "*"
+        "skeeks/cms": "^5.0 || dev-master"
     },
     "autoload": {
         "psr-4": {
-            "skeeks\\cms\\ya\\map\\": ""
+            "skeeks\\cms\\ya\\map\\": "src/"
         }
     },
     "extra": {
         "config-plugin": {
-            "web": "config/main.php"
+            "web": "src/config/web.php"
         }
     }
 }
