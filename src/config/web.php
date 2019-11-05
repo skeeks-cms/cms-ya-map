@@ -1,7 +1,6 @@
 <?php
 return [
-    'components' =>
-    [
+    'components' =>  [
         'cms' =>
         [
             'relatedHandlers' => [
@@ -10,6 +9,10 @@ return [
                     'class' => 'skeeks\cms\ya\map\related\YaMap'
                 ]
             ],
+        ],
+
+        'yaMap' => [
+            'class' => 'skeeks\cms\ya\map\YaMapComponent'
         ],
 
         'admin' => [
