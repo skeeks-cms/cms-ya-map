@@ -54,7 +54,7 @@ class YaMapComponent extends Component {
     public function attributeHints()
     {
         return ArrayHelper::merge(parent::attributeHints(), [
-            'api_key'   =>  'https://tech.yandex.ru/maps/jsapi/doc/2.1/quick-start/index-docpage/',
+            'api_key'   =>  'Получить ключ api можно тут: <a href="https://tech.yandex.ru/maps/jsapi/doc/2.1/quick-start/index-docpage/" target="_blank" data-pjax="0">https://tech.yandex.ru/maps/jsapi/doc/2.1/quick-start/index-docpage/</a>',
         ]);
     }
 

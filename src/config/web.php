@@ -1,11 +1,9 @@
 <?php
 return [
     'components' =>  [
-        'cms' =>
-        [
+        'cms' => [
             'relatedHandlers' => [
-                'skeeks\cms\ya\map\related\YaMap' =>
-                [
+                'skeeks\cms\ya\map\related\YaMap' => [
                     'class' => 'skeeks\cms\ya\map\related\YaMap'
                 ]
             ],
@@ -17,8 +15,7 @@ return [
 
         'admin' => [
             'dashboards'         => [
-                'Yandex maps' =>
-                [
+                'Yandex maps' => [
                     'skeeks\cms\ya\map\dashboards\PointOnMap'
                 ]
             ],
