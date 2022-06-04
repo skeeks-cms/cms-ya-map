@@ -17,7 +17,7 @@ use yii\web\View;
  */
 class YaAsset extends AssetBundle
 {
-    public $sourcePath = '@skeeks/cms/ya/map/assets';
+    public $sourcePath = '@skeeks/cms/ya/map/assets/src';
 
     public $css = [];
 
