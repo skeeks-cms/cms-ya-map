@@ -8,6 +8,7 @@
             self.YaMap = null;
 
             self.isSelectEvent = true;
+            self.changeEvent = null;
 
             ymaps.ready(function () {
                 self.YaMap = new ymaps.Map(self.get('yaMapId'), {
@@ -22,7 +23,16 @@
                     console.log("select!!!");
                     self.isSelectEvent = true;
                     self.setPlacemark(self.getJValueElement().val());
+                    
+                    if (self.changeEvent === null) {
+                        self.getJValueElement().trigger("change", {
+                            'after_select' : true
+                        });
+                    } else {
+                        self.changeEvent = null;
+                    }
 
+                    //self.getJValueElement().trigger("change");
                 });
                 //По клику на карту установка точки + установка нового адреса в поле адреса
                 self.YaMap.events.add('click', function (e) {
@@ -62,7 +72,7 @@
                     self.setAddress(self.Placemark.geometry.getCoordinates());
                 });
             }
-
+            
             $('#' + self.get("latitude_element")).val(coords[0]);
             $('#' + self.get("longitude_element")).val(coords[1]);
 
@@ -152,10 +162,17 @@
         {
             var self = this;
             //Когда изменилось значение адреса в поле
-            self.getJValueElement().on("change", function() {
+            self.getJValueElement().on("change", function(e, data) {
+                console.log("change!!!");
+                if (data && data.after_select) {
+                    return true;
+                }
+                
+                self.changeEvent = e;
+
                 self.isSelectEvent = false;
                 var address = $(this).val();
-                console.log("change!!!");
+                
                 setTimeout(function() {
                     if (self.isSelectEvent) {
                         console.log("Уже сработало событие select!");
@@ -166,7 +183,7 @@
                         .setPlacemark(address, true)
                     ;
                 }, 200);
-
+                
             });
 
 

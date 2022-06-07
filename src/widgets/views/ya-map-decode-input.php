@@ -42,6 +42,7 @@ $this->registerCss(<<<CSS
     cursor: pointer;
     border-bottom: 1px dashed;
     color: gray;
+    z-index: 50;
 }
 CSS
 );
