@@ -85,6 +85,22 @@ class YaMapComponent extends Component
     }
 
     /**
+     * Создать адрес для декодированяи по данным
+     *
+     * @see https://yandex.ru/dev/maps/geosearch/?from=mapsapi
+     * @return string
+     */
+    public function createOrganizationUrl($data = [])
+    {
+        $baseData['format'] = "json";
+        $baseData['apikey'] = $this->api_key;
+        
+        $data = ArrayHelper::merge($baseData, $data);
+
+        return "https://search-maps.yandex.ru/v1/?" . http_build_query($data);
+    }
+
+    /**
      * Создать адрес для декодированяи по адресу
      * 
      * @param string $address
