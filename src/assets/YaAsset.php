@@ -9,8 +9,6 @@
 namespace skeeks\cms\ya\map\assets;
 
 use skeeks\cms\base\AssetBundle;
-use yii\base\Event;
-use yii\web\View;
 /**
  * Class YaAsset
  * @package skeeks\cms\ya\map
@@ -30,13 +28,22 @@ class YaAsset extends AssetBundle
 
     public function registerAssetFiles($view)
     {
+
+        $query = [
+            'load' => 'package.full',
+            'lang' => 'ru-RU',
+        ];
+
         if ($apiKey = \Yii::$app->yaMap->api_key) {
-            if ($apiKey = \Yii::$app->yaMap->api_key) {
-                \Yii::$app->view->registerJsFile("https://api-maps.yandex.ru/2.1/?apikey={$apiKey}&load=package.full&lang=ru-RU", ['position' => \yii\web\View::POS_END]);
-            }
-        } else {
-            \Yii::$app->view->registerJsFile("//api-maps.yandex.ru/2.1/?load=package.full&lang=ru-RU", ['position' => \yii\web\View::POS_END]);
+            $query['apikey'] = $apiKey;
         }
+        if ($suggest_apikey = \Yii::$app->yaMap->suggest_apikey) {
+            $query['suggest_apikey'] = $suggest_apikey;
+        }
+
+        $url = "https://api-maps.yandex.ru/2.1/?" . http_build_query($query);
+
+        \Yii::$app->view->registerJsFile($url, ['position' => \yii\web\View::POS_END]);
 
         parent::registerAssetFiles($view);
     }

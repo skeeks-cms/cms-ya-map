@@ -21,6 +21,7 @@ class YaMapComponent extends Component
      * @var string
      */
     public $api_key = '';
+    public $suggest_apikey = '';
 
     /**
      * Можно задать название и описание компонента
@@ -39,6 +40,7 @@ class YaMapComponent extends Component
             [
                 [
                     'api_key',
+                    'suggest_apikey',
                 ],
                 'string',
             ],
@@ -48,7 +50,8 @@ class YaMapComponent extends Component
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'api_key' => 'Ключ api yandex карт',
+            'api_key' => 'Ключ JavaScript API и HTTP Геокодер',
+            'suggest_apikey' => 'Ключ API Геосаджеста',
         ]);
     }
 
@@ -56,7 +59,8 @@ class YaMapComponent extends Component
     public function attributeHints()
     {
         return ArrayHelper::merge(parent::attributeHints(), [
-            'api_key' => 'Получить ключ api можно тут: <a href="https://tech.yandex.ru/maps/jsapi/doc/2.1/quick-start/index-docpage/" target="_blank" data-pjax="0">https://tech.yandex.ru/maps/jsapi/doc/2.1/quick-start/index-docpage/</a>',
+            'api_key' => 'Основной ключ для работы карты. <br />Получить ключ api ключи можно тут: <a href="https://developer.tech.yandex.ru/services" target="_blank" data-pjax="0">https://developer.tech.yandex.ru/services</a>',
+            'suggest_apikey' => 'Ключ для работы подсказок при вводе адреса',
         ]);
     }
 
@@ -67,6 +71,7 @@ class YaMapComponent extends Component
     {
         return [
             'api_key',
+            'suggest_apikey',
         ];
     }
 
@@ -94,7 +99,7 @@ class YaMapComponent extends Component
     {
         $baseData['format'] = "json";
         $baseData['apikey'] = $this->api_key;
-        
+
         $data = ArrayHelper::merge($baseData, $data);
 
         return "https://search-maps.yandex.ru/v1/?" . http_build_query($data);
