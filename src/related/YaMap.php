@@ -8,6 +8,7 @@
 namespace skeeks\cms\ya\map\related;
 
 use skeeks\cms\components\Cms;
+use skeeks\cms\relatedProperties\models\RelatedPropertiesModel;
 use skeeks\cms\relatedProperties\PropertyType;
 use skeeks\cms\ya\map\widgets\YaMapInput;
 use yii\helpers\ArrayHelper;
@@ -87,7 +88,7 @@ class YaMap extends PropertyType
     /**
      * @return \yii\widgets\ActiveField
      */
-    public function renderForActiveForm()
+    public function renderForActiveForm(RelatedPropertiesModel $relatedPropertiesModel)
     {
         $field = parent::renderForActiveForm();
         $mapId = 'sx-map-' . $field->attribute;
@@ -120,19 +121,19 @@ class YaMap extends PropertyType
         $opts['updateLatId'] = '';
         if ($this->updateLatName)
         {
-            $opts['updateLatId'] = Html::getInputId($this->property->relatedPropertiesModel, $this->updateLatName);
+            $opts['updateLatId'] = Html::getInputId($relatedPropertiesModel, $this->updateLatName);
         }
 
         $opts['updateLonId'] = '';
         if ($this->updateLonName)
         {
-            $opts['updateLonId'] = Html::getInputId($this->property->relatedPropertiesModel, $this->updateLonName);
+            $opts['updateLonId'] = Html::getInputId($relatedPropertiesModel, $this->updateLonName);
         }
 
         $opts['updateAddressId'] = '';
         if ($this->updateAddressName)
         {
-            $opts['updateAddressId'] = Html::getInputId($this->property->relatedPropertiesModel, $this->updateAddressName);
+            $opts['updateAddressId'] = Html::getInputId($relatedPropertiesModel, $this->updateAddressName);
         }
 
         $opts['mapId'] = $mapId;
