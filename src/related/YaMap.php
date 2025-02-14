@@ -90,7 +90,7 @@ class YaMap extends PropertyType
      */
     public function renderForActiveForm(RelatedPropertiesModel $relatedPropertiesModel)
     {
-        $field = parent::renderForActiveForm();
+        $field = parent::renderForActiveForm($relatedPropertiesModel);
         $mapId = 'sx-map-' . $field->attribute;
 
         $center = explode(',', $this->center);
