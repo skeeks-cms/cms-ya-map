@@ -8,6 +8,7 @@
 
 namespace skeeks\cms\ya\map;
 
+use skeeks\cms\assets\CmsAsset;
 use skeeks\cms\base\Component;
 use yii\helpers\ArrayHelper;
 use yii\httpclient\Client;
@@ -31,6 +32,10 @@ class YaMapComponent extends Component
     {
         return array_merge(parent::descriptorConfig(), [
             'name' => 'Настройки yandex карты',
+            'image'         => [
+                CmsAsset::class,
+                'images/icons/admin-menu/map.svg'
+            ],
         ]);
     }
 
