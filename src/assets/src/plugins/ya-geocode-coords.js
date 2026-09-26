@@ -108,14 +108,12 @@
         {
             var self = this;
              self.Placemark.properties.set('iconContent', 'поиск...');
-             ymaps.geocode(coords).then(function (res)
+             sx.YaGeocoder.geocode(coords).done(function (result)
              {
-                var firstGeoObject = res.geoObjects.get(0);
-
                  var data = {
-                    'object'        : firstGeoObject,
-                    'address'       : firstGeoObject.properties.get('text'),
-                    'address_name'  : firstGeoObject.properties.get('name'),
+                    'object'        : result.object,
+                    'address'       : result.text,
+                    'address_name'  : result.name,
                     'coords'        : coords,
                 };
                 self.trigger('select', data);
@@ -123,9 +121,11 @@
 
                 self.Placemark.properties
                     .set({
-                        iconContent: firstGeoObject.properties.get('name'),
-                        balloonContent: firstGeoObject.properties.get('text')
+                        iconContent: result.name,
+                        balloonContent: result.text
                     });
+            }).fail(function (message) {
+                self.Placemark.properties.set('iconContent', message);
             });
         },
     });

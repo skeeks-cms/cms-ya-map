@@ -19,6 +19,7 @@ class YaMapDecodeWidgetAsset extends YaAsset
     ];
     public $depends = [
         '\skeeks\cms\ya\map\assets\YaAsset',
+        '\skeeks\cms\ya\map\assets\YaGeocoderAsset',
         '\skeeks\sx\assets\Core',
     ];
 }

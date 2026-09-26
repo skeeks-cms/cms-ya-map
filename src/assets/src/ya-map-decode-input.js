@@ -84,14 +84,12 @@
         {
             var self = this;
              self.Placemark.properties.set('iconContent', 'поиск...');
-             ymaps.geocode(coords).then(function (res)
+             sx.YaGeocoder.geocode(coords).done(function (result)
              {
-                var firstGeoObject = res.geoObjects.get(0);
-
                  var data = {
-                    'object'        : firstGeoObject,
-                    'address'       : firstGeoObject.properties.get('text'),
-                    'address_name'  : firstGeoObject.properties.get('name'),
+                    'object'        : result.object,
+                    'address'       : result.text,
+                    'address_name'  : result.name,
                     'coords'        : coords,
                 };
                 self.trigger('select', data);
@@ -111,10 +109,21 @@
 
                 self.Placemark.properties
                     .set({
-                        iconContent: firstGeoObject.properties.get('name'),
-                        balloonContent: firstGeoObject.properties.get('text')
+                        iconContent: result.name,
+                        balloonContent: result.text
                     });
+            }).fail(function (message) {
+                self.Placemark.properties.set('iconContent', '');
+                self.showError(message);
             });
+        },
+
+        showError: function(message) {
+            if (sx.notify && sx.notify.error) {
+                sx.notify.error(message);
+            } else {
+                console.error(message);
+            }
         },
 
         getJValueElement: function() {
@@ -139,15 +148,8 @@
         setPlacemark: function(address, isSetAddress = false) {
             var self = this;
 
-            ymaps.geocode(address, {
-                results: 1
-            }).then(function (res) {
-                // Выбираем первый результат геокодирования.
-                var firstGeoObject = res.geoObjects.get(0),
-                    // Координаты геообъекта.
-                    coords = firstGeoObject.geometry.getCoordinates(),
-                    // Область видимости геообъекта.
-                    bounds = firstGeoObject.properties.get('boundedBy');
+            sx.YaGeocoder.geocode(address).done(function (result) {
+                var coords = result.coords;
 
                 self.setCoordinates(coords);
                 if (isSetAddress) {
@@ -155,6 +157,8 @@
                 }
 
                 self.Placemark.properties.set('iconContent', address);
+            }).fail(function (message) {
+                self.showError(message);
             });
         },
 

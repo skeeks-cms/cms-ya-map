@@ -23,6 +23,10 @@ class YaMapComponent extends Component
      */
     public $api_key = '';
     public $suggest_apikey = '';
+    /**
+     * @var string Ключ продукта «API Геокодера». Яндекс вынес геокодер из ключа JavaScript API в отдельный продукт.
+     */
+    public $geocoder_apikey = '';
 
     /**
      * Можно задать название и описание компонента
@@ -46,6 +50,7 @@ class YaMapComponent extends Component
                 [
                     'api_key',
                     'suggest_apikey',
+                    'geocoder_apikey',
                 ],
                 'string',
             ],
@@ -55,8 +60,9 @@ class YaMapComponent extends Component
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'api_key' => 'Ключ JavaScript API и HTTP Геокодер',
+            'api_key' => 'Ключ JavaScript API',
             'suggest_apikey' => 'Ключ API Геосаджеста',
+            'geocoder_apikey' => 'Ключ API Геокодера',
         ]);
     }
 
@@ -66,6 +72,7 @@ class YaMapComponent extends Component
         return ArrayHelper::merge(parent::attributeHints(), [
             'api_key' => 'Основной ключ для работы карты. <br />Получить ключ api ключи можно тут: <a href="https://developer.tech.yandex.ru/services" target="_blank" data-pjax="0">https://developer.tech.yandex.ru/services</a>',
             'suggest_apikey' => 'Ключ для работы подсказок при вводе адреса',
+            'geocoder_apikey' => 'Ключ для определения координат по адресу и адреса по точке на карте. <br />Если не указан, используется ключ JavaScript API, но у новых ключей Яндекса геокодер в него не входит.',
         ]);
     }
 
@@ -77,6 +84,7 @@ class YaMapComponent extends Component
         return [
             'api_key',
             'suggest_apikey',
+            'geocoder_apikey',
         ];
     }
 
@@ -89,7 +97,7 @@ class YaMapComponent extends Component
     public function createDecodeUrl($data = [])
     {
         $data['format'] = "json";
-        $data['apikey'] = $this->api_key;
+        $data['apikey'] = $this->getGeocoderApiKey();
 
         return "https://geocode-maps.yandex.ru/1.x/?" . http_build_query($data);
     }
@@ -108,6 +116,16 @@ class YaMapComponent extends Component
         $data = ArrayHelper::merge($baseData, $data);
 
         return "https://search-maps.yandex.ru/v1/?" . http_build_query($data);
+    }
+
+    /**
+     * Ключ для HTTP Геокодера: отдельный ключ API Геокодера, а если его нет — ключ JavaScript API
+     *
+     * @return string
+     */
+    public function getGeocoderApiKey()
+    {
+        return $this->geocoder_apikey ?: $this->api_key;
     }
 
     /**

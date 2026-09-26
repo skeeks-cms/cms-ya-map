@@ -19,5 +19,6 @@ class YaMapPluginGeocodeCoordsAsset extends YaAsset
     ];
     public $depends = [
         '\skeeks\cms\ya\map\assets\YaMapAsset',
+        '\skeeks\cms\ya\map\assets\YaGeocoderAsset',
     ];
 }
